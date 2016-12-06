@@ -15,6 +15,8 @@ set(CMAKE_MODULE_PATH
 message(STATUS "Building for ${CMAKE_SYSTEM_NAME} target system")
 message(STATUS "Building with ${CMAKE_C_COMPILER_ID} compiler")
 
+SET(USE_OPENGL ON CACHE BOOL "Set this to OFF to build a stripped-down version of freetype-gl that doesn't use opengl")
+
 if (USE_OPENGL)
 set(freetype-gl_WITH_GLEW_DEFAULT ON)
 
