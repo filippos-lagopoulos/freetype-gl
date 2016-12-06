@@ -15,6 +15,7 @@ set(CMAKE_MODULE_PATH
 message(STATUS "Building for ${CMAKE_SYSTEM_NAME} target system")
 message(STATUS "Building with ${CMAKE_C_COMPILER_ID} compiler")
 
+if (USE_OPENGL)
 set(freetype-gl_WITH_GLEW_DEFAULT ON)
 
 if((${CMAKE_SYSTEM_NAME} MATCHES "Darwin") OR
@@ -31,6 +32,7 @@ option(freetype-gl_BUILD_APIDOC "Build the freetype-gl API documentation" ON)
 option(freetype-gl_BUILD_HARFBUZZ "Build the freetype-gl harfbuzz support (experimental)" OFF)
 option(freetype-gl_BUILD_MAKEFONT "Build the makefont tool" ON)
 option(freetype-gl_BUILD_TESTS "Build the tests" ON)
+endif()
 
 include(RequireIncludeFile)
 include(RequireFunctionExists)
@@ -74,25 +76,28 @@ if(NOT HAVE_M_PI)
     endif()
 endif()
 
+if (USE_OPENGL)
 if(NOT MINGW AND (WIN32 OR WIN64))
     set(GLEW_ROOT_DIR
         ${CMAKE_CURRENT_SOURCE_DIR}/windows/glew)
     set(ENV{FREETYPE_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/windows/freetype)
 endif()
-
 find_package(OpenGL REQUIRED)
-find_package(Freetype REQUIRED)
-
 if(freetype-gl_WITH_GLEW)
     find_package(GLEW REQUIRED)
 endif()
+endif()
+
+find_package(Freetype REQUIRED)
 
 include_directories(
-    ${OPENGL_INCLUDE_DIRS}
     ${FREETYPE_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}
+if (USE_OPENGL)
+    ${OPENGL_INCLUDE_DIRS}
     ${GLEW_INCLUDE_PATH}
+endif()
 )
 
 if(MSVC)
@@ -104,37 +109,64 @@ if(freetype-gl_USE_VAO)
     add_definitions(-DFREETYPE_GL_USE_VAO)
 endif(freetype-gl_USE_VAO)
 
-set(FREETYPE_GL_HDR
-    distance-field.h
-    edtaa3func.h
-    font-manager.h
-    freetype-gl.h
-    markup.h
-    opengl.h
-    platform.h
-    text-buffer.h
-    texture-atlas.h
-    texture-font.h
-    utf8-utils.h
-    vec234.h
-    vector.h
-    vertex-attribute.h
-    vertex-buffer.h
-)
+if (USE_OPENGL)
+    set(FREETYPE_GL_HDR
+        distance-field.h
+        edtaa3func.h
+        font-manager.h
+        freetype-gl.h
+        markup.h
+        opengl.h
+        platform.h
+        text-buffer.h
+        texture-atlas.h
+        texture-font.h
+        utf8-utils.h
+        vec234.h
+        vector.h
+        vertex-attribute.h
+        vertex-buffer.h
+    )
 
-set(FREETYPE_GL_SRC
-    distance-field.c
-    edtaa3func.c
-    font-manager.c
-    platform.c
-    text-buffer.c
-    texture-atlas.c
-    texture-font.c
-    utf8-utils.c
-    vector.c
-    vertex-attribute.c
-    vertex-buffer.c
-)
+    set(FREETYPE_GL_SRC
+        distance-field.c
+        edtaa3func.c
+        font-manager.c
+        platform.c
+        text-buffer.c
+        texture-atlas.c
+        texture-font.c
+        utf8-utils.c
+        vector.c
+        vertex-attribute.c
+        vertex-buffer.c
+    )
+else()
+    set(FREETYPE_GL_HDR
+        font-manager.h
+        freetype-gl.h
+        markup.h
+        platform.h
+        text-buffer.h
+        texture-atlas.h
+        texture-font.h
+        vec234.h
+        vector.h
+        vertex-attribute.h
+        vertex-buffer.h
+    )
+
+    set(FREETYPE_GL_SRC
+        platform.c
+        texture-atlas.c
+        texture-font.c
+        vector.c
+        vertex-attribute.c
+        vertex-buffer.c
+        text-buffer.c
+        font-manager.c
+    )
+endif()
 
 add_library(freetype-gl STATIC
     ${FREETYPE_GL_SRC}
