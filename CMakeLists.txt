@@ -7,10 +7,7 @@ cmake_minimum_required(VERSION 2.8.12)
 
 project(freetype-gl)
 
-set(CMAKE_MODULE_PATH
-    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules"
-    "${CMAKE_MODULE_PATH}"
-)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${SCRIPTS_CMAKE})
 
 set(FREETYPE_VERSION 2.6.5)
 
@@ -38,46 +35,9 @@ option(freetype-gl_BUILD_MAKEFONT "Build the makefont tool" ON)
 option(freetype-gl_BUILD_TESTS "Build the tests" ON)
 endif()
 
-include(RequireIncludeFile)
-include(RequireFunctionExists)
-include(CheckLibraryExists)
-include(CheckSymbolExists)
-
-require_include_file(stdbool.h HAVE_STDBOOL_H)
-require_include_file(stdint.h HAVE_STDINT_H)
-require_include_file(math.h HAVE_MATH_H)
-
-check_library_exists(m cos "" HAVE_MATH_LIBRARY)
-
 if(HAVE_MATH_LIBRARY)
     list(APPEND CMAKE_REQUIRED_LIBRARIES m)
     set(MATH_LIBRARY m)
-endif()
-
-require_function_exists(cos HAVE_COS)
-require_function_exists(fabs HAVE_FABS)
-require_function_exists(floor HAVE_FLOOR)
-require_function_exists(fmod HAVE_FMOD)
-require_function_exists(pow HAVE_POW)
-require_function_exists(roundf HAVE_ROUNDF)
-require_function_exists(round HAVE_ROUND)
-require_function_exists(sin HAVE_SIN)
-require_function_exists(sqrt HAVE_SQRT)
-require_function_exists(tan HAVE_TAN)
-
-check_symbol_exists(M_PI math.h HAVE_M_PI)
-
-if(NOT HAVE_M_PI)
-    list(APPEND CMAKE_REQUIRED_DEFINITIONS -D_USE_MATH_DEFINES)
-    unset(HAVE_M_PI CACHE)
-
-    check_symbol_exists(M_PI math.h HAVE_M_PI)
-
-    if(NOT HAVE_M_PI)
-        message(FATAL_ERROR "`M_PI` not defined in `math.h`.")
-    else()
-        add_definitions(-D_USE_MATH_DEFINES)
-    endif()
 endif()
 
 if (USE_OPENGL)
