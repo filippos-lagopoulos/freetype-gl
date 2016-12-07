@@ -122,9 +122,6 @@ else()
         texture-atlas.c
         texture-font.c
         vector.c
-        vertex-attribute.c
-        vertex-buffer.c
-        text-buffer.c
         font-manager.c
     )
 endif()
