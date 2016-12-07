@@ -146,7 +146,6 @@ if (USE_OPENGL)
 else()
     set(FREETYPE_GL_HDR
         font-manager.h
-        freetype-gl.h
         markup.h
         platform.h
         text-buffer.h
@@ -154,8 +153,6 @@ else()
         texture-font.h
         vec234.h
         vector.h
-        vertex-attribute.h
-        vertex-buffer.h
     )
 
     set(FREETYPE_GL_SRC
@@ -209,3 +206,19 @@ if(freetype-gl_BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif(freetype-gl_BUILD_TESTS)
+
+if (NOT USE_OPENGL)
+message(STATUS "CMAKE_INSTALL_PREFIX : ${CMAKE_INSTALL_PREFIX}")
+
+install(TARGETS freetype-gl
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        RUNTIME DESTINATION bin
+)
+
+install(FILES
+    ${FREETYPE_GL_HDR}
+    DESTINATION include/freetype-gl
+)
+
+endif()
