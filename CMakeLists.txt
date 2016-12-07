@@ -5,12 +5,14 @@
 
 cmake_minimum_required(VERSION 2.8.12)
 
-project(freetype-gl LANGUAGES C CXX)
+project(freetype-gl)
 
 set(CMAKE_MODULE_PATH
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules"
     "${CMAKE_MODULE_PATH}"
 )
+
+set(FREETYPE_VERSION 2.6.5)
 
 message(STATUS "Building for ${CMAKE_SYSTEM_NAME} target system")
 message(STATUS "Building with ${CMAKE_C_COMPILER_ID} compiler")
@@ -91,7 +93,7 @@ if(freetype-gl_WITH_GLEW)
 endif()
 endif()
 
-find_package(Freetype REQUIRED)
+find_package(FREETYPE ${FREETYPE_VERSION} REQUIRED)
 
 include_directories(
     ${FREETYPE_INCLUDE_DIRS}
