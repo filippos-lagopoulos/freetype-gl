@@ -118,6 +118,7 @@ else()
         utf8-utils.h
         vec234.h
         vector.h
+        version.h
     )
 
     set(FREETYPE_GL_SRC
