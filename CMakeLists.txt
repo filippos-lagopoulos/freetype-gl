@@ -118,6 +118,8 @@ else()
     )
 
     set(FREETYPE_GL_SRC
+        distance-field.c
+        edtaa3func.c
         platform.c
         texture-atlas.c
         texture-font.c
