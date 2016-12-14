@@ -121,6 +121,7 @@ else()
         platform.c
         texture-atlas.c
         texture-font.c
+        utf8-utils.c
         vector.c
         font-manager.c
     )
