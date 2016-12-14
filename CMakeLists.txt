@@ -107,12 +107,15 @@ if (USE_OPENGL)
     )
 else()
     set(FREETYPE_GL_HDR
+        distance-field.h
+        edtaa3func.h
         font-manager.h
         markup.h
         platform.h
         text-buffer.h
         texture-atlas.h
         texture-font.h
+        utf8-utils.h
         vec234.h
         vector.h
     )
