@@ -105,6 +105,12 @@ if (USE_OPENGL)
         vertex-attribute.c
         vertex-buffer.c
     )
+
+add_library(freetype-gl STATIC
+    ${FREETYPE_GL_SRC}
+    ${FREETYPE_GL_HDR}
+)
+
 else()
     set(FREETYPE_GL_HDR
         distance-field.h
@@ -131,12 +137,13 @@ else()
         vector.c
         font-manager.c
     )
-endif()
 
-add_library(freetype-gl STATIC
+add_library(freetype-gl SHARED
     ${FREETYPE_GL_SRC}
     ${FREETYPE_GL_HDR}
 )
+
+endif()
 
 if(freetype-gl_BUILD_MAKEFONT)
     add_executable(makefont makefont.c)
