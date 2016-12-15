@@ -143,6 +143,10 @@ add_library(freetype-gl SHARED
     ${FREETYPE_GL_HDR}
 )
 
+target_link_libraries(freetype-gl
+    ${FREETYPE_LIBRARIES}
+)
+
 endif()
 
 if(freetype-gl_BUILD_MAKEFONT)
