@@ -138,10 +138,17 @@ else()
         font-manager.c
     )
 
-add_library(freetype-gl SHARED
-    ${FREETYPE_GL_SRC}
-    ${FREETYPE_GL_HDR}
-)
+if (WIN32 OR WIN64)
+    add_library(freetype-gl STATIC
+        ${FREETYPE_GL_SRC}
+        ${FREETYPE_GL_HDR}
+    )
+else()
+    add_library(freetype-gl SHARED
+        ${FREETYPE_GL_SRC}
+        ${FREETYPE_GL_HDR}
+    )
+endif()
 
 target_link_libraries(freetype-gl
     ${FREETYPE_LIBRARIES}
