@@ -138,7 +138,7 @@ else()
         font-manager.c
     )
 
-if (WIN32 OR WIN64)
+if (WIN32 OR WIN64 OR (${CMAKE_SYSTEM_NAME} MATCHES "Darwin") )
     add_library(freetype-gl STATIC
         ${FREETYPE_GL_SRC}
         ${FREETYPE_GL_HDR}
