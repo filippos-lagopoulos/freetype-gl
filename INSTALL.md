@@ -1,22 +1,30 @@
 # Install
 
-## Ubuntu 15.10
+## Ubuntu
 
 The procedure is detailed in the [.travis.yml](.travis.yml).
 
 If you want to reuse distribution packages as much as possible,
 you need at the very least to:
 
--   compile and install AntTweakBar from source.
+-   compile and install AntTweakBar from source: <http://anttweakbar.sourceforge.net/doc/>
 
     There is no Ubuntu package for it, and that project is marked as unmaintained.
 
--   compile and install GLFW from source because of a Debian packaging bug with CMake:
-    <https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=812853>
+-   Ubuntu 15.10 and earlier required extra fixes to GLFW because of packaging and upstream bugs.
 
--   apply the fix at
-    <https://github.com/rougier/freetype-gl/blob/a4cfb9abac19a0ab62b625a9b6f856e032fe3732/.travis.yml#L23>
-    to the installed GLFW files
+    Those were not present in 16.10 anymore, where you can just use:
+
+        sudo apt-get install libglfw3-dev
+
+    The fixes were:
+
+    -   compile and install GLFW from source because of a Debian packaging bug with CMake:
+        <https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=812853>
+
+    -   apply the fix at
+        <https://github.com/rougier/freetype-gl/blob/a4cfb9abac19a0ab62b625a9b6f856e032fe3732/.travis.yml#L23>
+        to the installed GLFW files
 
 Then:
 
@@ -91,3 +99,17 @@ Make sure to add your bin folder e.g. `C:\msys64\mingw64\bin`  to your PATH if y
 If you get an error when you start your application from the Windows Explorer like "The procedure entry point inflateReset2 could not be located in the dynamic link library zlib1.dll":
 This is likely a PATH related problem. In this case some other zlib1.dll existent in one of the PATH folders was shadowing the needed zlib1.dll one of the mingw64/bin folder.
 The solution is to change the order of the PATH entries so that the mingw64 folder comes first.
+
+## macOS with homebrew
+
+Install [homebrew](http://brew.sh/).
+
+Then:
+
+    brew install AntTweakBar ImageMagick cmake doxygen glfw3
+    cmake .
+    make
+
+You can then run some demos under:
+
+    cd demos

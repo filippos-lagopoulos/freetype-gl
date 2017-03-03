@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "freetype-gl.h"
 #include "shader.h"
 #include "mat4.h"
 #include "vertex-buffer.h"
@@ -198,7 +197,11 @@ int main( int argc, char **argv )
     init();
 
     glfwShowWindow( window );
-    reshape( window, 400, 400 );
+    {
+        int pixWidth, pixHeight;
+        glfwGetFramebufferSize( window, &pixWidth, &pixHeight );
+        reshape( window, pixWidth, pixHeight );
+    }
 
     glfwSetTime(1.0);
 
