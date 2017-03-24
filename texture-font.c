@@ -562,7 +562,7 @@ cleanup_stroker:
         int top;
         int right;
         int bottom;
-    } padding = { 0, 0, 1, 1 };
+    } padding = { 1, 1, 1, 1 };
 
     if( self->rendermode == RENDER_SIGNED_DISTANCE_FIELD )
     {
@@ -588,6 +588,7 @@ cleanup_stroker:
     y = region.y;
 
     unsigned char *buffer = calloc( tgt_w * tgt_h * self->atlas->depth, sizeof(unsigned char) );
+    memset(buffer, 0, sizeof(unsigned char) * tgt_w * tgt_h * self->atlas->depth);
 
     unsigned char *dst_ptr = buffer + (padding.top * tgt_w + padding.left) * self->atlas->depth;
     unsigned char *src_ptr = ft_bitmap.buffer;
@@ -610,10 +611,13 @@ cleanup_stroker:
 
     free( buffer );
 
+    x += padding.left;
+    y += padding.top;
+
     glyph = texture_glyph_new( );
     glyph->codepoint = utf8_to_utf32( codepoint );
-    glyph->width    = tgt_w;
-    glyph->height   = tgt_h;
+    glyph->width    = src_w;
+    glyph->height   = src_h;
     glyph->rendermode = self->rendermode;
     glyph->outline_thickness = self->outline_thickness;
     glyph->offset_x = ft_glyph_left;
