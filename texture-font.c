@@ -564,7 +564,7 @@ cleanup_stroker:
         int top;
         int right;
         int bottom;
-    } padding = { 1, 1, 1, 1 };
+    } padding = { 2, 2, 2, 2 };
 
     size_t src_w = ft_bitmap.width/self->atlas->depth;
     size_t src_h = ft_bitmap.rows;
@@ -608,21 +608,23 @@ cleanup_stroker:
 
     free( buffer );
 
-    x += padding.left;
-    y += padding.top;
+    float uvx = x + padding.left;
+    float uvy = y + padding.top;
+    float uvz = src_w+1;
+    float uvw = src_h+1;
 
     glyph = texture_glyph_new( );
     glyph->codepoint = utf8_to_utf32( codepoint );
-    glyph->width    = src_w;
-    glyph->height   = src_h;
+    glyph->width    = uvz;
+    glyph->height   = uvw;
     glyph->rendermode = self->rendermode;
     glyph->outline_thickness = self->outline_thickness;
     glyph->offset_x = ft_glyph_left;
     glyph->offset_y = ft_glyph_top;
-    glyph->s0       = x/(float)self->atlas->width;
-    glyph->t0       = y/(float)self->atlas->height;
-    glyph->s1       = (x + glyph->width)/(float)self->atlas->width;
-    glyph->t1       = (y + glyph->height)/(float)self->atlas->height;
+    glyph->s0       = uvx/(float)self->atlas->width;
+    glyph->t0       = uvy/(float)self->atlas->height;
+    glyph->s1       = (uvx + uvz)/(float)self->atlas->width;
+    glyph->t1       = (uvy + uvw)/(float)self->atlas->height;
 
     // Discard hinting to get advance
     FT_Load_Glyph( face, glyph_index, FT_LOAD_RENDER | FT_LOAD_NO_HINTING);
