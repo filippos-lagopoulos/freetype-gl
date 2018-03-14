@@ -9,7 +9,7 @@ project(freetype-gl)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${SCRIPTS_CMAKE})
 
-set(FREETYPE_VERSION 2.6.5)
+set(FREETYPE_VERSION 2.9)
 
 message(STATUS "Building for ${CMAKE_SYSTEM_NAME} target system")
 message(STATUS "Building with ${CMAKE_C_COMPILER_ID} compiler")
